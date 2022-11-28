@@ -19,7 +19,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement Variables")]
     // These variables (visible in the inspector) are for you to set up to match the right feel
-    [SerializeField] private float movementSpeed = 12f;
+     private float movementSpeed = 20f;
+    private float movementSpeed2 = 12f;
     [SerializeField] private float horizontalSpeed = 2.0f;
     [SerializeField] private float verticalSpeed = 2.0f;
 
@@ -57,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         float moveMousey =  horizontalSpeed * Input.GetAxis("Mouse X");
         yaw += horizontalSpeed * Input.GetAxis("Mouse X");
         pitch -= verticalSpeed * Input.GetAxis("Mouse Y");
-
+        
         // Get the Left/Right and Forward/Back values of the input being used (WASD, Joystick etc.)
         float xValue = Input.GetAxis("Horizontal");
         float zValue = Input.GetAxis("Vertical");
@@ -86,6 +87,17 @@ public class PlayerMovement : MonoBehaviour
         Vector3 movementVector = transform.right * xValue + transform.forward * zValue;
 
         // Finally, it applies that vector it just made to the character
-        characterController.Move(movementVector * movementSpeed * Time.deltaTime + velocity * Time.deltaTime);
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            characterController.Move(movementVector * movementSpeed * Time.deltaTime + velocity * Time.deltaTime);
+        }
+        else
+            characterController.Move(movementVector * movementSpeed2 * Time.deltaTime + velocity * Time.deltaTime);
+
+        Debug.Log(movementSpeed);
+
+
+
+
     }
 }
