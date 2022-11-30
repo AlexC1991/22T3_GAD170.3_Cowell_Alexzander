@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 
@@ -11,56 +12,48 @@ namespace AlexzanderCowell
     {
         [SerializeField] GameObject ThirdCam;
         [SerializeField] GameObject FirstCam;
-        private int cameraSelection;
+        private bool cameraSelection;
         private bool pressed;
 
         private void Start()
         {
-            cameraSelection = 0;
+            cameraSelection = true;
         }
 
         private void Update()
         {
+            if (cameraSelection == true)
+            {
+                ThirdCam.SetActive(true);
+                FirstCam.SetActive(false);
+            }
+
+            else
+            {
+                ThirdCam.SetActive(false);
+                FirstCam.SetActive(true);
+            }
+
             if (Input.GetKeyDown(KeyCode.C))
             {
-                pressed = true;    
+                StartChange();
+                Debug.Log(cameraSelection);
             }
-            else pressed = false;
+               
+        }
 
-            if ( pressed == true)
+        private void StartChange()
+        {
+            if (cameraSelection == true)
             {
-                if (cameraSelection <= 0)
-                {
-                    FirstPerson();                   
-                }
-
-                if (cameraSelection > 1)
-                {
-                    ThirdPerson();
-                    cameraSelection -= (1);
-                }
-                cameraSelection += (1);
+                cameraSelection = false;
             }
 
-        } 
-        private void ThirdPerson()
-        {          
-           ThirdCam.SetActive(true);
-           FirstCam.SetActive(false);
-            SelectionDown();
-            Debug.Log(cameraSelection);
+            else cameraSelection = true;
         }
 
-        private void FirstPerson()
-        {
-            ThirdCam.SetActive(false);
-            FirstCam.SetActive(true);
-            Debug.Log(cameraSelection);
-        }
-        private void SelectionDown()
-        {
-            cameraSelection = 1;
-            
-        }
+        
+
+        
     }
 }
