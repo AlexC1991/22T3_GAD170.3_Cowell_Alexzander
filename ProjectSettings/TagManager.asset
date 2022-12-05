@@ -6,6 +6,12 @@ TagManager:
   tags:
   - FPC
   - TPC
+  - Coin
+  - Enemy
+  - Water
+  - Space
+  - ElectricWalls
+  - Enemy2
   layers:
   - Default
   - TransparentFX

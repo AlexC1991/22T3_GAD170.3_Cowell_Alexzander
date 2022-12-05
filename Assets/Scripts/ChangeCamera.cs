@@ -10,34 +10,39 @@ namespace AlexzanderCowell
 
     public class ChangeCamera : MonoBehaviour
     {
-        [SerializeField] GameObject ThirdCam;
-        [SerializeField] GameObject FirstCam;
+        [SerializeField] GameObject thirdCam;
+        [SerializeField] GameObject firstCam;
         private bool cameraSelection;
         private bool pressed;
 
         private void Start()
         {
             cameraSelection = true;
+            
         }
 
         private void Update()
         {
             if (cameraSelection == true)
             {
-                ThirdCam.SetActive(true);
-                FirstCam.SetActive(false);
+                thirdCam.SetActive(true);
+                firstCam.SetActive(false);
+                firstCam.GetComponent<AudioListener>().enabled = false;
+                thirdCam.GetComponent<AudioListener>().enabled = true;
             }
 
             else
             {
-                ThirdCam.SetActive(false);
-                FirstCam.SetActive(true);
+                thirdCam.SetActive(false);
+                firstCam.SetActive(true);
+                thirdCam.GetComponent<AudioListener>().enabled = false;
+                firstCam.GetComponent<AudioListener>().enabled = true;
             }
 
             if (Input.GetKeyDown(KeyCode.C))
             {
                 StartChange();
-                Debug.Log(cameraSelection);
+                
             }
                
         }

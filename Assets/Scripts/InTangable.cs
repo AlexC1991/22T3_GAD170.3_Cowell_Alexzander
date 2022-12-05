@@ -4,48 +4,92 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InTangable : MonoBehaviour
 {
-    [SerializeField] private GameObject blockColor;
+    [SerializeField] private GameObject[] blockArray;
     [SerializeField] private Material inTangleble;
     [SerializeField] private Material tangleble;
+    private bool playerIsClose = false;
+    private float timer = 35;
+    private float finishedTimer = 0;
+    private float holdValue;
+    private bool timerSS = false;
+
 
     private void Start()
     {
-        blockColor.GetComponent<MeshRenderer>().material = tangleble;
+        holdValue = timer;
+        UpdatedColor1();
     }
-
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-
-        if (Input.GetKeyUp(KeyCode.E))
+        if (other.CompareTag("Player"))
         {
-            
-            ChangeColor1();
-        }
-
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            ChangeColor2();
+            playerIsClose = true;
+            Debug.Log("Entered");
         }
     }
 
-    private void ChangeColor1()
+    private void OnTriggerExit(Collider other)
     {
-        if (blockColor.GetComponent<MeshRenderer>().material = inTangleble);
+        if (other.CompareTag("Player"))
         {
-            
-            blockColor.GetComponent<MeshRenderer>().material = tangleble;
+            playerIsClose = false;
+            Debug.Log("Exited");
         }
     }
 
-    private void ChangeColor2()
+    private void ButtonPress()
     {
-        if (blockColor.GetComponent<MeshRenderer>().material = tangleble)
+        if (Input.GetKey(KeyCode.E))
         {
+               UpdatedColor2();
+        }
+    }
 
-            blockColor.GetComponent<MeshRenderer>().material = inTangleble; 
+    void FixedUpdate()
+    {
+        if (playerIsClose == true)
+        {
+            ButtonPress();
+        }
+        for (int i = 0; i < blockArray.Length; i++)
+        {
+            if (blockArray[i].GetComponent<BoxCollider>().enabled == true)
+            {
+                timer -= (1) * Time.fixedDeltaTime;
+                timerSS = true;
+                
+            }
+        }
+        if (timer <= finishedTimer)
+        {
+            timerSS = false;
+        }
+        if (timerSS == false)
+        {
+            timer = holdValue;
+            UpdatedColor1();
+        }
+    }
+
+    private void UpdatedColor1()
+    {
+        for (int i = 0; i < blockArray.Length; i++)
+        {
+            blockArray[i].GetComponent<BoxCollider>().enabled = false;
+            blockArray[i].GetComponent<MeshRenderer>().material = inTangleble;
+        }
+    }
+
+    private void UpdatedColor2()
+    {
+        for (int i = 0; i < blockArray.Length; i++)
+        {
+            blockArray[i].GetComponent<MeshRenderer>().material = tangleble;
+            blockArray[i].GetComponent<BoxCollider>().enabled = true;               
         }
     }
 }

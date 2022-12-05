@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
+
 public class PlayerMovement : MonoBehaviour
 {
+    
     // INSTRUCTIONS
     //
     // This script must be on a gameobject that has a Character Controller component.
@@ -16,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     // This must be linked to the gameobject that has the "Character Controller" in the inspector.
     private CharacterController characterController;
+    private bool playerIsCloser = false;
+    private int coinCollected;
+    [SerializeField] Text pointOut;
 
     [Header("Movement Variables")]
     // These variables (visible in the inspector) are for you to set up to match the right feel
@@ -51,14 +57,35 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Coin"))
+        {
+            coinCollected += (1);
+            playerIsCloser = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Coin"))
+        {
+            playerIsCloser = false;
+
+        }
+    }
+
     private void Update()
     {
+        pointOut.text = "Points: " + coinCollected.ToString();
+  
+
         // These lines let the script rotate the character based on the mouse moving
-        float moveMousex =+ horizontalSpeed * Input.GetAxis("Mouse X");
-        float moveMousey =  horizontalSpeed * Input.GetAxis("Mouse X");
+        float moveMousex = +horizontalSpeed * Input.GetAxis("Mouse X");
+        float moveMousey = horizontalSpeed * Input.GetAxis("Mouse X");
         yaw += horizontalSpeed * Input.GetAxis("Mouse X");
         pitch -= verticalSpeed * Input.GetAxis("Mouse Y");
-        
+
         // Get the Left/Right and Forward/Back values of the input being used (WASD, Joystick etc.)
         float xValue = Input.GetAxis("Horizontal");
         float zValue = Input.GetAxis("Vertical");
@@ -93,11 +120,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
             characterController.Move(movementVector * movementSpeed2 * Time.deltaTime + velocity * Time.deltaTime);
-
-        Debug.Log(movementSpeed);
-
-
-
-
     }
+    
 }
