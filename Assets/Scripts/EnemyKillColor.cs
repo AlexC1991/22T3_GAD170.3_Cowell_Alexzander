@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class EnemyKillColor : MonoBehaviour
 {
+    [Header("GameObject")]
     [SerializeField] private GameObject enemyArray;
+
+    [Header("Material")]
     [SerializeField] private Material canKill;
     [SerializeField] private Material dontKill;
     [HideInInspector]

@@ -20,8 +20,9 @@ public class PlayerMovement : MonoBehaviour
     // This must be linked to the gameobject that has the "Character Controller" in the inspector.
     private CharacterController characterController;
     private bool playerIsCloser = false;
-    private int coinCollected;
-    [SerializeField] Text pointOut;
+    [HideInInspector]
+    public int coinCollected;
+    [SerializeField] Text pointOut; 
 
     [Header("Movement Variables")]
     // These variables (visible in the inspector) are for you to set up to match the right feel
@@ -57,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Coin"))
@@ -73,7 +75,9 @@ public class PlayerMovement : MonoBehaviour
             playerIsCloser = false;
 
         }
+
     }
+
 
     private void Update()
     {

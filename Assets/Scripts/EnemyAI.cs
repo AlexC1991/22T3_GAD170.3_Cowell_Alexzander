@@ -33,7 +33,6 @@ namespace AlexzanderCowell{
         private int randomOutcome;
         private float timeDelta;
         private int convertedTime;
-        private Vector3 velocity;
         
         private void Awake()
         {

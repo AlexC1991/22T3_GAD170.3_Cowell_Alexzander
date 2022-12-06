@@ -10,8 +10,10 @@ namespace AlexzanderCowell
 
     public class ChangeCamera : MonoBehaviour
     {
+        [Header("Cameras")]
         [SerializeField] GameObject thirdCam;
         [SerializeField] GameObject firstCam;
+        
         private bool cameraSelection;
         private bool pressed;
 

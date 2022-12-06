@@ -11,11 +11,16 @@ public class InTangable : MonoBehaviour
     [SerializeField] private GameObject[] blockArray;
     [SerializeField] private Material inTangleble;
     [SerializeField] private Material tangleble;
-    private bool playerIsClose = false;
-    private float timer = 35;
+    [HideInInspector]
+    public bool playerIsClose = false;
+    [HideInInspector]
+    public float timer = 35;
     private float finishedTimer = 0;
     private float holdValue;
-    private bool timerSS = false;
+    [HideInInspector]
+    public bool timerSS = false;
+    [HideInInspector]
+    public bool timeWolf = false;
 
 
     private void Start()
@@ -45,6 +50,7 @@ public class InTangable : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.E))
         {
+               timeWolf = true;
                UpdatedColor2();
         }
     }
@@ -60,13 +66,13 @@ public class InTangable : MonoBehaviour
             if (blockArray[i].GetComponent<BoxCollider>().enabled == true)
             {
                 timer -= (1) * Time.fixedDeltaTime;
-                timerSS = true;
-                
+                timerSS = true;               
             }
         }
         if (timer <= finishedTimer)
         {
             timerSS = false;
+            timeWolf = false;
         }
         if (timerSS == false)
         {
@@ -75,10 +81,8 @@ public class InTangable : MonoBehaviour
         }
     }
 
-    private void UpdatedColor1()
-    {
-        for (int i = 0; i < blockArray.Length; i++)
-        {
+    private void UpdatedColor1(){
+        for (int i = 0; i < blockArray.Length; i++){
             blockArray[i].GetComponent<BoxCollider>().enabled = false;
             blockArray[i].GetComponent<MeshRenderer>().material = inTangleble;
         }
