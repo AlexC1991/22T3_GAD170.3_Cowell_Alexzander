@@ -14,7 +14,7 @@ public class InTangable : MonoBehaviour
     [HideInInspector]
     public bool playerIsClose = false;
     [HideInInspector]
-    public float timer = 35;
+    public float timer = 45;
     private float finishedTimer = 0;
     private float holdValue;
     [HideInInspector]

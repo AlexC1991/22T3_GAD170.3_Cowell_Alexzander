@@ -68,7 +68,9 @@ namespace AlexzanderCowell
 
             if (waterT.waterHit == true)
             {
+                Debug.Log("Water is hit");
                 healthN -= 1;
+                healthNumber.text = "Health: " + healthN.ToString();
             }
 
             if (roomWall2.room2Interact == true)
@@ -160,6 +162,7 @@ namespace AlexzanderCowell
                 
             }  if (popUI == true)
             {
+                timeOrWaveUI.SetActive(true);
                 timeOrWaveUI.GetComponent<CanvasGroup>().alpha = 1;
                 timeOrWaveUI.GetComponent<CanvasGroup>().blocksRaycasts = false;
             }
@@ -169,6 +172,7 @@ namespace AlexzanderCowell
 
                 if (popUI == false)
                 {
+                    timeOrWaveUI.SetActive(false);
                     timeOrWaveUI.GetComponent<CanvasGroup>().alpha = 0;
                     timeOrWaveUI.GetComponent<CanvasGroup>().blocksRaycasts = true;
                 }
@@ -200,20 +204,17 @@ namespace AlexzanderCowell
             if (inTang.playerIsClose == true)
             {
                 ButtonT();
-                timeStart = false;
-                
+                timeStart = false;               
             }
             else if (inTang2.playerIsClose == true)
             {
                 ButtonT();
-                timeStart = false;
-                
+                timeStart = false;                
             }
             else if (enemies.closeToMe == true)
             {
                 ButtonE();
-                timeStart = false;
-                
+                timeStart = false;                
             }
             
             reCheckAgain = false;

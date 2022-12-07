@@ -1424,8 +1424,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 62.27, y: -1.7, z: 68.12}
+  m_Center: {x: 72.8, y: 12.53, z: -20.3}
 --- !u!1 &118153396
 GameObject:
   m_ObjectHideFlags: 0
@@ -66756,7 +66756,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: d7cffddcbc0cc8f4ebe6e28eb9804082, type: 3}
-    m_FontSize: 7
+    m_FontSize: 6
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 4
@@ -66766,7 +66766,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 0.9
+    m_LineSpacing: 1
   m_Text: 'Welcome to The Wonder Wall.
 
     You will have 4 rooms and each room will
