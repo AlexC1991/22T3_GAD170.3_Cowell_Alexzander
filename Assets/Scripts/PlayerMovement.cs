@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UI;
+using System;
+using System.Runtime.CompilerServices;
+using AlexzanderCowell;
 
 [RequireComponent(typeof(CharacterController))]
 
@@ -21,12 +24,19 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController characterController;
     private bool playerIsCloser = false;
     [HideInInspector]
-    public int coinCollected;
-    [SerializeField] Text pointOut; 
+    public int coinCollected;   
+    public Vector3 playerTransform;
+    private bool reLocate = false;
 
-    [Header("Movement Variables")]
-    // These variables (visible in the inspector) are for you to set up to match the right feel
-     private float movementSpeed = 20f;
+    [Header("GameObjects & Text")]
+    [SerializeField] Text pointOut;
+
+    [Header("Scripts")]
+    [SerializeField] WaterTrigger waterT;
+
+    
+    [Header("Movement Variables")] // These variables (visible in the inspector) are for you to set up to match the right feel
+    private float movementSpeed = 20f;
     private float movementSpeed2 = 12f;
     [SerializeField] private float horizontalSpeed = 2.0f;
     [SerializeField] private float verticalSpeed = 2.0f;
@@ -56,6 +66,8 @@ public class PlayerMovement : MonoBehaviour
             // ...then this searches the components on the gameobject and gets a reference to the CharacterController class
             characterController = GetComponent<CharacterController>();
         }
+
+        
     }
 
 
@@ -118,12 +130,20 @@ public class PlayerMovement : MonoBehaviour
         Vector3 movementVector = transform.right * xValue + transform.forward * zValue;
 
         // Finally, it applies that vector it just made to the character
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            characterController.Move(movementVector * movementSpeed * Time.deltaTime + velocity * Time.deltaTime);
-        }
-        else
             characterController.Move(movementVector * movementSpeed2 * Time.deltaTime + velocity * Time.deltaTime);
+
+        if (waterT.waterHit == true){
+            StartRelocate();
+            reLocate = true;
+        }
     }
-    
+
+    private void StartRelocate()
+    {
+        gameObject.transform.position = playerTransform;
+        playerTransform = new Vector3(-19.20832f, 7.472631f, -69.0894f);
+    }
+
+
+
 }

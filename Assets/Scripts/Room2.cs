@@ -5,7 +5,7 @@ namespace AlexzanderCowell
 {
 
 
-    public class RM2 : MonoBehaviour
+    public class Room2 : MonoBehaviour
     {
         [HideInInspector]
         public bool room2Interact = false;

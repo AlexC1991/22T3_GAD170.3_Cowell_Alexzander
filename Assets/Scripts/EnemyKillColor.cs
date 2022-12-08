@@ -1,6 +1,8 @@
 
+using AlexzanderCowell;
+using System;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class EnemyKillColor : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class EnemyKillColor : MonoBehaviour
     [Header("Material")]
     [SerializeField] private Material canKill;
     [SerializeField] private Material dontKill;
+    [SerializeField] private Sprite sadFace;
+    [SerializeField] private Sprite angryFace;
     [HideInInspector]
     public bool closeToMe = false;
     private float timer = 15;
@@ -17,8 +21,10 @@ public class EnemyKillColor : MonoBehaviour
     private float holdValue;
     private bool timerSS;
     private bool buttonDown = false;
-    private bool colorIsGood;
+    [HideInInspector]
+    public bool colorIsGood;
 
+    
 
     private void Start()
     {
@@ -87,12 +93,16 @@ public class EnemyKillColor : MonoBehaviour
     private void KillColor()
     {
         enemyArray.GetComponent<MeshRenderer>().material = canKill;
+        enemyArray.GetComponentInChildren<Image>().sprite = sadFace;
         colorIsGood = true;
     }
 
     private void CantKillColor()
     {
         enemyArray.GetComponent<MeshRenderer>().material = dontKill;
+        enemyArray.GetComponentInChildren<Image>().sprite = angryFace;
         colorIsGood = false;
     }
+
+    
 }

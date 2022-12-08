@@ -32,12 +32,17 @@ namespace AlexzanderCowell
         
         [Header("GameObject Arrays")]
         [SerializeField] private GameObject[] door2TurnedOnOrOff;
-        
-        private bool openDoor2;
-        private bool openDoor3;
-        private bool openDoor4;
-        private bool openDoorB;
-        private bool openDoorBRM;
+
+        [HideInInspector]
+        public bool openDoor2;
+        [HideInInspector]
+        public bool openDoor3;
+        [HideInInspector]
+        public bool openDoor4;
+        [HideInInspector]
+        public bool openDoorB;
+        [HideInInspector]
+        public bool openDoorBRM;
 
 
         private void Start()

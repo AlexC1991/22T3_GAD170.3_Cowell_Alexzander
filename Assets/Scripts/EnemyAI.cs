@@ -1,8 +1,4 @@
-
-
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,103 +6,159 @@ namespace AlexzanderCowell{
 
 
 
-    public class EnemyAI : MonoBehaviour{
-        [SerializeField] GameObject player;
+    public class EnemyAI : MonoBehaviour {
         [SerializeField] private float enemyMovement = 6f;
         [SerializeField] private float enemyRunSpeed = 10f;
-        [SerializeField] private float enemyHealth = 20f;
+        [SerializeField] private float enemyHealth = 3f;
         NavMeshAgent newNav;
-        [SerializeField] private Transform changePos1;
-        [SerializeField] private Transform changePos2;
-        [SerializeField] private Transform changePos3;
-        [SerializeField] private Transform changePos4;
-        [Range(1,200)]
-        [SerializeField] private int timer = 50;
-        private Transform completePos;
-        private int point1 = 1;
-        private int point2 = 2;
-        private int point3 = 3;
-        private int point4 = 4;
-        private bool finishedTimer = false;
-        private int finishTime = 0;
-        private int timePassage;
-        private int randomOutcome;
-        private float timeDelta;
-        private int convertedTime;
-        
-        private void Awake()
-        {
-            newNav = GetComponent<NavMeshAgent>();
-            timePassage = timer;
-        }
+        [SerializeField] private Transform thePlayer;
+        [SerializeField] private LayerMask whatIsPlayer, whatIsGround;
+        [SerializeField] EnemyKillColor enemyKillColor;
+        [SerializeField] GameObject coinModel;
 
+        [SerializeField] private float attackRange,sightRange;
+        private bool playIsInSight;
+        private bool playIsInAttack;
+        
+        private Vector3 walkPoint;
+        private bool walkPointSet;
+
+        private Vector3 runPoint;
+        private bool runPointSet;
+
+        public static event Action<int> _HealthUpdateEventwithEnemy;
+        [SerializeField] WaterTrigger waterTig;
         private void Start()
         {
-            for (int i = 0; i < timePassage; i++)
-            {
-                startTimer();
-            }
-        }
-            
-        
-        private void FixedUpdate(){
-
-           float time = 1 * Time.fixedDeltaTime;
-
-            randomOutcome = Random.Range(1, 4);
-
-            if (randomOutcome == 1)
-            {
-                randomOutcome = point1;
-            }
-            else if (randomOutcome == 2)
-            {
-                randomOutcome = point2;
-            }
-            else if (randomOutcome == 3)
-            {
-                randomOutcome = point3;
-            }
-            else if (randomOutcome == 4)
-            {
-                randomOutcome = point4;
-            }
-            
-            if (finishedTimer == true)
-            {
-                if(randomOutcome == point2)
-                {
-                    newNav.destination = changePos2.position;
-                    startTimer();
-                }
-                else if (randomOutcome == point3)
-                {
-                    newNav.destination = changePos3.position;
-                    startTimer();
-                }
-                else if (randomOutcome == point4)
-                {
-                    newNav.destination = changePos4.position;
-                    startTimer();
-                }
-                else if (randomOutcome == point1)
-                {
-                    newNav.destination = changePos1.position;
-                    startTimer();
-                }
-            }            
+            newNav = GetComponent<NavMeshAgent>();
+            thePlayer = GameObject.Find("PlayerObj").transform;
         }
 
-        private void startTimer()
+
+        private void Update()
         {
-            timer -= (1);
-            if (timer == finishTime)
+            playIsInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+            playIsInAttack = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+
+            if (!playIsInAttack && !playIsInSight) PatrolYard();
+            if (playIsInSight && playIsInAttack) ChasePlayer();
+            if (enemyKillColor.colorIsGood == true) RunFromPlayer();
+        }
+
+        private void PatrolYard()
+        {
+            if (!walkPointSet) SearchWalkPoint();
+
+            if (walkPointSet)
             {
-                timer = timePassage;
-                finishedTimer = true;
+                newNav.SetDestination(walkPoint);
+            }
+
+            Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+            if (distanceToWalkPoint.magnitude < 1f)
+                walkPointSet = false;
+        }
+
+        private void SearchWalkPoint()
+        {
+            float randomZ = UnityEngine.Random.Range(-enemyMovement, enemyMovement);
+            float randomX = UnityEngine.Random.Range(-enemyMovement, enemyMovement);
+            walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+            if (Physics.Raycast(walkPoint, -transform.up, whatIsGround))
+                walkPointSet = true;
+        }
+
+        private void ChasePlayer()
+        {
+            newNav.SetDestination(thePlayer.position);
+            transform.LookAt(thePlayer);
+        }
+
+        private void RunFromPlayer()
+        {
+            if (!runPointSet) RunPoint();
+
+            if (runPointSet)
+            {
+                newNav.SetDestination(runPoint);
+            }
+
+            Vector3 distanceToRunPoint = transform.position - runPoint;
+
+            if (distanceToRunPoint.magnitude < 1f)
+                runPointSet = false;
+        }
+
+        private void RunPoint()
+        {
+            float randomZ = UnityEngine.Random.Range(-enemyRunSpeed, enemyRunSpeed);
+            float randomX = UnityEngine.Random.Range(-enemyRunSpeed, enemyRunSpeed);
+            runPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+            if (Physics.Raycast(runPoint, -transform.up, whatIsGround))
+                runPointSet = true;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player")){
+
+                if (enemyKillColor.colorIsGood == true)
+                {
+                    TakeDamage();
+                }
+                else
+                {
+                    DecreaseHealth();
+                }
             }
             
+                
         }
+
+        private void TakeDamage()
+        {
+            enemyHealth = Mathf.Clamp(enemyHealth - 1, 0, 3);
+
+            if (enemyHealth <= 0)
+            {
+                DropCoins();
+                KillEnemy();
+            }
+        }
+        private void DropCoins()
+        {
+            Vector3 position = transform.position;
+            GameObject coin = Instantiate(coinModel, position, Quaternion.identity);
+        }
+
+        private void KillEnemy()
+        {
+            Destroy(gameObject);
+
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, sightRange);
+        }
+
+        private void DecreaseHealth()
+        {
+            waterTig.health = Mathf.Clamp(waterTig.health - 1, 0, 15);
+
+            if (_HealthUpdateEventwithEnemy != null)
+            {
+                _HealthUpdateEventwithEnemy(waterTig.health);
+            }
+        }
+
+
     }
 
     
