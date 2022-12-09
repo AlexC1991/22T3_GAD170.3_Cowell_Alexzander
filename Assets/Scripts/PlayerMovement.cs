@@ -22,21 +22,26 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     // This must be linked to the gameobject that has the "Character Controller" in the inspector.
     private CharacterController characterController;
-    private bool playerIsCloser = false;
+    
+    private bool playerIsCloser = false; // Checks if the player is close or not using a bool. - Added
+    
     [HideInInspector]
-    public int coinCollected;   
-    public Vector3 playerTransform;
-    private bool reLocate = false;
+    public int coinCollected;  // coinCollected is the point system in the game and is public so other scripts can access it but is hidden in the inspector so it does not clog up the inspector. - Added
+    
+    
+    [SerializeField] private Vector3 playerTransform; // displays the Vector 3 player Transform. - Added
+    
+    private bool reLocate = false; // Sets a reLocated bool to false to start.
 
     [Header("GameObjects & Text")]
-    [SerializeField] Text pointOut;
+    [SerializeField] Text pointOut; // Text for the score system in the UI. - Added
 
     [Header("Scripts")]
-    [SerializeField] WaterTrigger waterT;
+    [SerializeField] WaterTrigger waterT; // Gets the Water Trigger script to use here. - Added
 
     
     [Header("Movement Variables")] // These variables (visible in the inspector) are for you to set up to match the right feel
-    private float movementSpeed = 20f;
+    private float movementSpeed = 20f; 
     private float movementSpeed2 = 12f;
     [SerializeField] private float horizontalSpeed = 2.0f;
     [SerializeField] private float verticalSpeed = 2.0f;
@@ -65,36 +70,30 @@ public class PlayerMovement : MonoBehaviour
         {
             // ...then this searches the components on the gameobject and gets a reference to the CharacterController class
             characterController = GetComponent<CharacterController>();
-        }
-
-        
+        }        
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) // Checks for anything entering into the trigger zone. - Added
     {
-        if (other.CompareTag("Coin"))
+        if (other.CompareTag("Coin")) // If anything with the "Coin" tag comes into the trigger zone it will activate the code below.
         {
-            coinCollected += (1);
-            playerIsCloser = true;
+            coinCollected += (1); // If the gameObject with this script collides with a gameObject with a coin tag it will increase the coin Collected to a + 1 int value. - Added
+            playerIsCloser = true; // If the gameObject with this script collides with a gameObject with a coin tag it will set the player is close to true. - Added
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other) // Checks for anything exiting out of the trigger zone. - Added
     {
-        if (other.CompareTag("Coin"))
+        if (other.CompareTag("Coin")) // If anything with the "Coin" tag isn't in the trigger zone it will activate the code below. - Added
         {
-            playerIsCloser = false;
-
+            playerIsCloser = false; // If the gameObject with this script does not collide with a gameObject with a coin tag it will set the player is close to false. - Added
         }
-
     }
-
 
     private void Update()
     {
-        pointOut.text = "Points: " + coinCollected.ToString();
-  
+        pointOut.text = "Points: " + coinCollected.ToString(); // When the coinCollected updates it will display in the string of text in the UI for the points. - Added
 
         // These lines let the script rotate the character based on the mouse moving
         float moveMousex = +horizontalSpeed * Input.GetAxis("Mouse X");
@@ -132,16 +131,16 @@ public class PlayerMovement : MonoBehaviour
         // Finally, it applies that vector it just made to the character
             characterController.Move(movementVector * movementSpeed2 * Time.deltaTime + velocity * Time.deltaTime);
 
-        if (waterT.waterHit == true){
+        if (waterT.waterHit == true){ // Using the Water Trigger Script and if the water hit returns true it will start the Relocate method and set reLocate to true. - Added
             StartRelocate();
             reLocate = true;
         }
     }
 
-    private void StartRelocate()
+    private void StartRelocate() // Start if the Relocate Method.  -Added
     {
-        gameObject.transform.position = playerTransform;
-        playerTransform = new Vector3(-19.20832f, 7.472631f, -69.0894f);
+        gameObject.transform.position = playerTransform; // sets the game object transform position of this script to the player Transform.  -Added
+        playerTransform = new Vector3(-19.20832f, 7.472631f, -69.0894f); // Player transform will go to a new vector 3 of that area in room 2 which is the start entry away from the water. -Added
     }
 
 
