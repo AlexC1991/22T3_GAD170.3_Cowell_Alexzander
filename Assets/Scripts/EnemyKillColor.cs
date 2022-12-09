@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Alexzander Cowell
+namespace AlexzanderCowell
 {
 
  public class EnemyKillColor : MonoBehaviour

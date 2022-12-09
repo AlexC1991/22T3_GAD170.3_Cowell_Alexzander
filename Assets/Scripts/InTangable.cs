@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-namespace Alexzander Cowell
+namespace AlexzanderCowell
 {
 public class InTangable : MonoBehaviour
  {

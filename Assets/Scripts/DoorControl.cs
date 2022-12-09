@@ -130,7 +130,7 @@ namespace AlexzanderCowell
             roomIndicator2L.GetComponent<MeshRenderer>().material = closedRed; // changes the door indicator on the left from green to red on the game object.
             room2R.GetComponent<Light>().color = Color.red; // Displays the light color red instead of green on the right side for the game object.
             room2L.GetComponent<Light>().color = Color.red; // Displays the light color red instead of green on the left side for the game object.
-            for (int i = 0; i < door2TurnedOnOrOff.Length; i++) / Gets all the objects in the array to change by using .Length against i in every instance or element in the array.
+            for (int i = 0; i < door2TurnedOnOrOff.Length; i++) // Gets all the objects in the array to change by using .Length against i in every instance or element in the array.
             {
                 door2TurnedOnOrOff[i].SetActive(true); // turns on the game object entirelly so it can not allow the player through.
                 door2TurnedOnOrOff[i].GetComponent<BoxCollider>().enabled = true; // turns on the box collider so players can walk through it.
