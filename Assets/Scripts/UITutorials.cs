@@ -43,6 +43,7 @@ namespace AlexzanderCowell
         private int quote3 = 3; // Third quote hold number.
         private int quote4 = 4; // Forth quote hold number.
         private int quote5 = 5; // Fith quote hold number.
+        private int quote6 = 6; // Sixth quote hold number.
         private bool timeDone = true; // Time is done bool.
         private bool timeStart = true; // Start time bool.
         private bool reCheck = true; // Rechecking if one function has started yet.
@@ -103,7 +104,7 @@ namespace AlexzanderCowell
                 SecondCheck();
             }          
 
-            randomQuotes = Random.Range(1, 5);
+            randomQuotes = Random.Range(1, 7);
 
             if (randomQuotes == 1)
             {
@@ -124,6 +125,10 @@ namespace AlexzanderCowell
             if (randomQuotes == 5)
             {
                 randomQuotes = quote5;
+            }
+            if (randomQuotes == 6)
+            {
+                randomQuotes = quote6;
             }
 
             
@@ -160,7 +165,12 @@ namespace AlexzanderCowell
                     }
                     if (randomQuotes == quote5)
                     {
-                        helpFulHints.text = "Did you See the Boss yet? ;D".ToString();
+                        helpFulHints.text = "Did you See the Boss yet? 😁".ToString();
+                        timeDone = false;
+                    }
+                    if (randomQuotes == quote6)
+                    {
+                        helpFulHints.text = "Press 'ESC' at any point to exit the game".ToString();
                         timeDone = false;
                     }
                 }

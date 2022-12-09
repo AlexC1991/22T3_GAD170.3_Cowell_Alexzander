@@ -1,5 +1,6 @@
 using AlexzanderCowell;
 using System;
+using UnityEngine.SceneManagement;
 
 using UnityEngine;
 
@@ -52,6 +53,12 @@ namespace AlexzanderCowell
             if (_HealthUpdateEvent != null)
             {
                 _HealthUpdateEvent(health);
+            }
+        }
+
+        private void Update(){
+            if (health == 0){
+                SceneManager.LoadScene(sceneName: "GrassPlains");
             }
         }
      

@@ -118,21 +118,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b83ff7c014b6df4384e0493035be766, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyMovement: 6
-  enemyRunSpeed: 10
-  enemyHealth: 20
+  enemyMovement: 3
+  enemyRunSpeed: 6
+  enemyHealth: 3
   thePlayer: {fileID: 0}
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   enemyKillColor: {fileID: 0}
   coinModel: {fileID: 4681231700425841194, guid: f23fbf8115f269b4ab1ad93d9e0dab7a,
     type: 3}
   attackRange: 8
   sightRange: 14
+  waterTig: {fileID: 0}
 --- !u!195 &-1997463602357390825
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -140,7 +141,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520265398915162464}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 30
